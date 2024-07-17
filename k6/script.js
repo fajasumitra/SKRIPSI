@@ -13,13 +13,14 @@ const messageDuration = new Trend('ws_message_duration');
 
 export let options = {
   stages: [
-    { duration: '10s', target: 100 },
-    { duration: '20s', target: 100 },
+    { duration: '10s', target: 1000 },
+    { duration: '20s', target: 1000 },
     { duration: '10s', target: 0 },
   ],
 };
 
 export default function () {
+  errorRate.add(0);
   const url = 'ws://localhost:8080';
   const params = { tags: { my_tag: 'hello' } };
 
