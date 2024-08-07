@@ -22,7 +22,7 @@ wss.on('connection', function connection(ws) {
         // console.log(`Received message: ${message}`);
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
-                client.send('Hello WebSocket Client!');
+                client.send(message);
                 // console.log(`Broadcasting message: ${message}`);
             }
         });

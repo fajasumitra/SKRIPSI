@@ -64,7 +64,7 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const socket = new WebSocket("ws://localhost:9001");
+        const socket = new WebSocket("ws://192.168.68.105:9001");
 
         const form = document.getElementById("form");
         const input = document.getElementById("input");
@@ -84,7 +84,7 @@
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           if (input.value) {
-            ws.send(input.value);
+            socket.send(input.value);
             input.value = "";
           }
         });

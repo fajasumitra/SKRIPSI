@@ -7,14 +7,12 @@ const openRate = new Rate('ws_open_rate');
 const messageRate = new Rate('ws_message_rate');
 const closeRate = new Rate('ws_close_rate');
 const errorRate = new Rate('ws_error_rate');
-const sentMessages = new Counter('ws_sent_messages');
-const receivedMessages = new Counter('ws_received_messages');
 const messageDuration = new Trend('ws_message_duration');
 
 export let options = {
   stages: [
-    { duration: '10s', target: 1000 },
-    { duration: '20s', target: 1000 },
+    { duration: '30s', target: 20000 },
+    { duration: '30s', target: 20000 },
     { duration: '10s', target: 0 },
   ],
 };
@@ -30,7 +28,6 @@ export default function () {
     socket.on('open', function () {
       openRate.add(1);
       socket.send('Hello WebSocket Server!');
-      sentMessages.add(1);
       startTime = new Date();
     });
 
@@ -39,7 +36,6 @@ export default function () {
       const duration = endTime - startTime;
       messageDuration.add(duration);
       messageRate.add(1);
-      receivedMessages.add(1);
       check(message, {
         'message is hello': (msg) => msg === 'Hello WebSocket Client!',
       });
@@ -55,6 +51,8 @@ export default function () {
       errorRate.add(1);
       // console.log('WebSocket error:', e.error());
     });
+
+    sleep(1);
   });
 
   check(response, { 'status is 101': (r) => r && r.status === 101 });
